@@ -157,7 +157,7 @@ async function pasture() {
     await takeGetRequest('GetHomePageInfo');
     await $.wait(2000);
 
-    if (Number($.homeInfo.coins) > 50000) {
+    if (Number($.homeInfo.coins) > 100000) {
       let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
       console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
       for (let j = 0; j < canBuyTimes; j++) {
