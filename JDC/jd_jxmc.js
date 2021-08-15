@@ -249,13 +249,14 @@ async function takeGetRequest(type) {
       myRequest = getGetRequest(`GetUserTaskStatusList`, url);
       break;
     case 'mowing': //割草
-      url = `https://m.jingxi.com/jxmc/operservice/Action?channel=7&sceneid=1001&type=2&_stk=channel%2Csceneid%2Ctype&_ste=1`;
+      //url = `https://m.jingxi.com/jxmc/operservice/Action?channel=7&sceneid=1001&type=2&_stk=channel%2Csceneid%2Ctype&_ste=1`;
+      url = `https://m.jingxi.com/jxmc/operservice/Action?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=2&jxmc_jstoken=dd82d6ae1df0b388476b76c526d4f1eb&timestamp=1629018899455&phoneid=5e91e7787f958b1b57d0c194f38205acc85b86b4&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`mowing`, url);
       break;
     case 'GetSelfResult'://收蛋
       //url = `https://m.jingxi.com/jxmc/operservice/GetSelfResult?channel=7&sceneid=1001&type=14&itemid=undefined&_stk=channel%2Csceneid%2Ctype&_ste=1`;
-      url = `https://m.jingxi.com/jxmc/operservice/GetSelfResult?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=11`;
+      url = `https://m.jingxi.com/jxmc/operservice/GetSelfResult?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=11&itemid=pet_9e342c49c7eb48a7da22b5b7f031babb&_stk=activeid%2Cchannel%2Citemid%2Csceneid%2Ctype&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`GetSelfResult`, url);
       break;
@@ -287,7 +288,7 @@ async function takeGetRequest(type) {
       break;
     case 'feed'://投食
       //url = `https://m.jingxi.com/jxmc/operservice/Feed?channel=7&sceneid=1001&_stk=channel%2Csceneid&_ste=1`;
-      url = `https://m.jingxi.com/jxmc/operservice/Feed?channel=7&sceneid=1001&activeid=jxmc_active_0001`;
+      url = `https://m.jingxi.com/jxmc/operservice/Feed?channel=7&sceneid=1001&activeid=jxmc_active_0001&jxmc_jstoken=3aec3af923386203f87fb1eed5065c04&timestamp=1629014921105&phoneid=5e91e7787f958b1b57d0c194f38205acc85b86b4&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`cow`, url);
       break;
