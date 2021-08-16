@@ -1,6 +1,9 @@
 /*
 惊喜牧场
-更新时间：2021-8-16【修复投食】
+更新时间：2021-8-16
+
+【本人只是修复了一些问题，原作者也不知道是谁了，反正感谢原作者写的脚本】
+
 活动入口：京喜APP-我的-京喜牧场
 温馨提示：请先手动完成【新手指导任务】再运行脚本
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -252,7 +255,7 @@ async function takeGetRequest(type) {
       break;
     case 'mowing': //割草
       //url = `https://m.jingxi.com/jxmc/operservice/Action?channel=7&sceneid=1001&type=2&_stk=channel%2Csceneid%2Ctype&_ste=1`;
-      url = `https://m.jingxi.com/jxmc/operservice/Action?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=2&jxmc_jstoken=dd82d6ae1df0b388476b76c526d4f1eb&timestamp=${Date.now()}&phoneid=5e91e7787f958b1b57d0c194f38205acc85b86b4&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype&_ste=1`;
+      url = `https://m.jingxi.com/jxmc/operservice/Action?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=2&jxmc_jstoken=dd82d6ae1df0b388476b76c526d4f1eb&timestamp=${Date.now()}&phoneid=${phoneid(false, 40)}&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`mowing`, url);
       break;
@@ -282,19 +285,19 @@ async function takeGetRequest(type) {
       break;
     case 'cow'://收奶牛币
       //url = `https://m.jingxi.com/jxmc/operservice/GetCoin?channel=7&sceneid=1001&token=${A($.crowInfo.lastgettime)}&_stk=channel%2Csceneid%2Ctoken&_ste=1`;
-      url = `https://m.jingxi.com/jxmc/operservice/GetCoin?channel=7&sceneid=1001&activeid=jxmc_active_0001&token=${A($.crowInfo.lastgettime)}&jxmc_jstoken=4a282a3297f4eb0b15cd220e909fbd46&timestamp=${Date.now()}&phoneid=5e91e7787f958b1b57d0c194f38205acc85b86b4&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctoken&_ste=1`;
+      url = `https://m.jingxi.com/jxmc/operservice/GetCoin?channel=7&sceneid=1001&activeid=jxmc_active_0001&token=${A($.crowInfo.lastgettime)}&jxmc_jstoken=4a282a3297f4eb0b15cd220e909fbd46&timestamp=${Date.now()}&phoneid=${phoneid(false, 40)}&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctoken&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`cow`, url);
       break;
     case 'buy'://购买白菜
       //url = `https://m.jingxi.com/jxmc/operservice/Buy?channel=7&sceneid=1001&type=1&_stk=channel%2Csceneid%2Ctype&_ste=1`;
-      url = `https://m.jingxi.com/jxmc/operservice/Buy?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=1&jxmc_jstoken=4c4c368f7396a028c2027edb2b611651&timestamp=${Date.now()}&phoneid=5e91e7787f958b1b57d0c194f38205acc85b86b4&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype&_ste=1`;
+      url = `https://m.jingxi.com/jxmc/operservice/Buy?channel=7&sceneid=1001&activeid=jxmc_active_0001&type=1&jxmc_jstoken=4c4c368f7396a028c2027edb2b611651&timestamp=${Date.now()}&phoneid=${phoneid(false, 40)}&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`cow`, url);
       break;
     case 'feed'://投食
       //url = `https://m.jingxi.com/jxmc/operservice/Feed?channel=7&sceneid=1001&_stk=channel%2Csceneid&_ste=1`;
-      url = `https://m.jingxi.com/jxmc/operservice/Feed?channel=7&sceneid=1001&activeid=jxmc_active_0001&jxmc_jstoken=3aec3af923386203f87fb1eed5065c04&timestamp=${Date.now()}&phoneid=5e91e7787f958b1b57d0c194f38205acc85b86b4&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`;
+      url = `https://m.jingxi.com/jxmc/operservice/Feed?channel=7&sceneid=1001&activeid=jxmc_active_0001&jxmc_jstoken=3aec3af923386203f87fb1eed5065c04&timestamp=${Date.now()}&phoneid=${phoneid(false, 40)}&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`cow`, url);
       break;
@@ -399,6 +402,22 @@ function dealReturn(type, data) {
     default:
       console.log(JSON.stringify(data));
   }
+}
+
+function phoneid(randomFlag, min, max){
+    var str = "",
+        range = min,
+        arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+ 
+    // 随机产生
+    if(randomFlag){
+        range = Math.round(Math.random() * (max-min)) + min;
+    }
+    for(var i=0; i<range; i++){
+        pos = Math.round(Math.random() * (arr.length-1));
+        str += arr[pos];
+    }
+    return str;
 }
 
 function getGetRequest(type, url) {
