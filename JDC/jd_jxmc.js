@@ -57,7 +57,8 @@ if ($.isNode()) {
   console.log('惊喜牧场\n' +
       '更新时间：2021-8-16\n' +
       '活动入口：京喜APP-我的-京喜牧场\n' +
-      '温馨提示：请先手动完成【新手指导任务】再运行脚本')
+      '温馨提示：请先手动完成【新手指导任务】再运行脚本'
+      '修复了一些问题,购买白菜的逻辑重写')
   for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     $.cookie = cookiesArr[i];
@@ -160,7 +161,27 @@ async function pasture() {
     await takeGetRequest('GetHomePageInfo');
     await $.wait(2000);
 
-    if (Number($.homeInfo.coins) > 100000) {
+/*    if (Number($.homeInfo.coins) > 100000) {
+      let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
+      console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
+      for (let j = 0; j < canBuyTimes; j++) {
+        console.log(`第${j + 1}次购买白菜`);
+        await takeGetRequest('buy');
+        await $.wait(2000);
+      }
+      await takeGetRequest('GetHomePageInfo');
+      await $.wait(2000);
+    }*/
+
+
+    let materialinfoList = $.homeInfo.materialinfo;
+    for (let j = 0; j < materialinfoList.length; j++) {
+      if (materialinfoList[j].type !== 1) {
+        continue;
+      }
+
+    if (Number(materialinfoList[j].value) < 10) {
+      console.log(`\n现存白菜${materialinfoList[j].value}颗，不够喂，开始购买白菜！`);
       let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
       console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
       for (let j = 0; j < canBuyTimes; j++) {
@@ -171,11 +192,6 @@ async function pasture() {
       await takeGetRequest('GetHomePageInfo');
       await $.wait(2000);
     }
-    let materialinfoList = $.homeInfo.materialinfo;
-    for (let j = 0; j < materialinfoList.length; j++) {
-      if (materialinfoList[j].type !== 1) {
-        continue;
-      }
       if (Number(materialinfoList[j].value) > 10) {
         $.canFeedTimes = Math.floor(Number(materialinfoList[j].value) / 10);
         console.log(`\n共有白菜${materialinfoList[j].value}颗，每次喂10颗，可以喂${$.canFeedTimes}次`);
