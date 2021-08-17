@@ -1,6 +1,6 @@
 /*
 惊喜牧场
-更新时间：2021-8-16
+更新时间：2021-8-17
 
 【本人只是修复了一些问题，原作者也不知道是谁了，反正感谢原作者写的脚本】
 
@@ -55,10 +55,11 @@ if ($.isNode()) {
     return;
   }
   console.log('惊喜牧场\n' +
-      '更新时间：2021-8-16\n' +
+      '更新时间：2021-8-17\n' +
       '活动入口：京喜APP-我的-京喜牧场\n' +
       '温馨提示：请先手动完成【新手指导任务】再运行脚本\n'+
-      '修复了一些问题,购买白菜的逻辑重写')
+      '修复了一些问题,购买白菜的逻辑重写\n'+
+      '增加领取白菜奖励')
   for (let i = 0; i < cookiesArr.length; i++) {
     $.index = i + 1;
     $.cookie = cookiesArr[i];
@@ -111,6 +112,7 @@ async function pasture() {
         }
       }
       $.crowInfo = $.homeInfo.cow;
+      $.GetVisitBackCabbageInfo = $.homeInfo.cow;
     }
 
     await $.wait(2000);
@@ -118,7 +120,14 @@ async function pasture() {
       console.log('收奶牛金币');
       await takeGetRequest('cow');
       await $.wait(2000);
-    }
+    } 
+
+    if($.GetVisitBackCabbageInfo.lastgettime){
+      console.log('收白菜奖励');
+      await takeGetRequest('GetVisitBackCabbage');
+      await $.wait(2000);
+    } 
+
     $.taskList = [];
     $.dateType = ``;
     for (let j = 2; j >= 0; j--) {
@@ -323,6 +332,11 @@ async function takeGetRequest(type) {
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`GetEgg`, url);
       break;
+    case 'GetVisitBackCabbage':// 领白菜
+      url = `https://m.jingxi.com/jxmc/operservice/GetVisitBackCabbage?channel=7&sceneid=1001&activeid=jxmc_active_0001&jxmc_jstoken=4cd4f5f0f718065f1781120dcb6a2777&timestamp=${Date.now()}&phoneid=${phoneid(false, 40)}&_stk=activeid%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`;
+      url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
+      myRequest = getGetRequest(`GetVisitBackCabbage`, url);
+      break;
     default:
       console.log(`错误${type}`);
   }
@@ -364,6 +378,15 @@ function dealReturn(type, data) {
           $.runFlag = false;
           console.log(`未获得金币暂停${type}`);
         }
+      }
+      break;
+    case 'GetVisitBackCabbage'://领取白菜
+      data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+      if (data.ret === 0) {
+        //$.GetVisitBackCabbageInfo = data.data;
+        console.log(`获得白菜奖励：${data.data.candrawlimit}颗`);
+      }else{
+        console.log(`白菜奖励已领取`);
       }
       break;
     case 'GetSelfResult':
