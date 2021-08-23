@@ -50,6 +50,9 @@ let randomCount = $.isNode() ? 20 : 5;
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
+    console.log('种豆得豆\n' +
+      '更新时间：2021-8-23\n' +
+      '修复了自动领豆，修复偷取好友营养液')
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -98,6 +101,9 @@ async function jdPlantBean() {
             roundList = $.plantBeanIndexResult.data.roundList;
             currentRoundId = roundList[count-1].roundId;//本期的roundId
             lastRoundId = roundList[count-2].roundId;//上期的roundId
+            // await $.wait(2000);
+            // console.log(`\n 活动ID currentRoundId：${$.currentRoundId}\n`);
+            // console.log(`\n 活动ID lastRoundId：${$.lastRoundId}\n`);
             awardState = roundList[count-2].awardState;
             $.taskList = $.plantBeanIndexResult.data.taskList;
             subTitle = `【京东昵称】${$.plantBeanIndexResult.data.plantUserInfo.plantNickName}`;
@@ -155,7 +161,7 @@ async function doGetReward() {
 async function doCultureBean() {
     await plantBeanIndex();
     if ($.plantBeanIndexResult && $.plantBeanIndexResult.code === '0') {
-        const plantBeanRound = $.plantBeanIndexResult.data.roundList[2]
+        const plantBeanRound = $.plantBeanIndexResult.data.roundList[1]//领取任务营养液
         if (plantBeanRound.roundState === '2') {
             //收取营养液
             if (plantBeanRound.bubbleInfos && plantBeanRound.bubbleInfos.length) console.log(`开始收取营养液`)
@@ -170,15 +176,15 @@ async function doCultureBean() {
     }
 }
 async function stealFriendWater() {
-    await stealFriendList();
-    if ($.stealFriendList && $.stealFriendList.code === '0') {
-        if ($.stealFriendList.data && $.stealFriendList.data.tips) {
+    await plantFriendList();
+    if ($.plantFriendList && $.plantFriendList.code === '0') {
+        if ($.plantFriendList.data && $.plantFriendList.data.tips) {
             console.log('\n\n今日偷取好友营养液已达上限\n\n');
             return
         }
-        if ($.stealFriendList.data && $.stealFriendList.data.friendInfoList && $.stealFriendList.data.friendInfoList.length > 0) {
+        if ($.plantFriendList.data && $.plantFriendList.data.friendInfoList && $.plantFriendList.data.friendInfoList.length > 0) {
             let nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000);
-            for (let item of $.stealFriendList.data.friendInfoList) {
+            for (let item of $.plantFriendList.data.friendInfoList) {
                 if (new Date(nowTimes).getHours() === 20) {
                     if (item.nutrCount >= 2) {
                         // console.log(`可以偷的好友的信息::${JSON.stringify(item)}`);
@@ -203,7 +209,7 @@ async function stealFriendWater() {
             }
         }
     } else {
-        console.log(`$.stealFriendList 异常： ${JSON.stringify($.stealFriendList)}`)
+        console.log(`$.plantFriendList 异常： ${JSON.stringify($.plantFriendList)}`)
     }
 }
 async function doEgg() {
@@ -446,26 +452,27 @@ async function cultureBean(currentRoundId, nutrientsType) {
 }
 //偷营养液大于等于3瓶的好友
 //①查询好友列表
-async function stealFriendList() {
+async function plantFriendList() {
     const body = {
         pageNum: '1'
     }
-    $.stealFriendList = await request('plantFriendList', body);
+    $.plantFriendList = await request('plantFriendList', body);
 }
 
 //②执行偷好友营养液的动作
 async function collectUserNutr(paradiseUuid) {
     console.log('开始偷好友');
-    // console.log(paradiseUuid);
+    // console.log(currentRoundId);
+    // console.log(lastRoundId);
     let functionId = arguments.callee.name.toString();
     const body = {
         "paradiseUuid": paradiseUuid,
-        "roundId": currentRoundId
+        "roundId": lastRoundId  //"roundId": currentRoundId
     }
     $.stealFriendRes = await request(functionId, body);
 }
 async function receiveNutrients() {
-    $.receiveNutrientsRes = await request('receiveNutrients', {"roundId": currentRoundId, "monitor_refer": "plant_receiveNutrients"})
+    $.receiveNutrientsRes = await request('receiveNutrients', {"roundId": lastRoundId, "monitor_refer": "plant_receiveNutrients"})
     // console.log(`定时领取营养液结果:${JSON.stringify($.receiveNutrientsRes)}`)
 }
 async function plantEggDoLottery() {
