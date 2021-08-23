@@ -193,7 +193,7 @@ async function pasture() {
       console.log(`\n现存白菜${materialinfoList[j].value}颗，不够喂，开始购买白菜！`);
       let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
       console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
-      for (let j = 0; j < canBuyTimes && j < 40; j++) {   ///(let j = 0; j < canBuyTimes; j++)
+      for (let j = 0; j < canBuyTimes && j < 50; j++) {   ///(let j = 0; j < canBuyTimes; j++)
         console.log(`第${j + 1}次购买白菜`);
         await takeGetRequest('buy');
         await $.wait(2000);
