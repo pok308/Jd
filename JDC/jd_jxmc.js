@@ -193,7 +193,7 @@ async function pasture() {
       console.log(`\n现存白菜${materialinfoList[j].value}颗，不够喂，开始购买白菜！`);
       let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
       console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
-      for (let j = 0; j < canBuyTimes; j++) {
+      for (let j = 0; j < canBuyTimes && j < 40; j++) {   ///(let j = 0; j < canBuyTimes; j++)
         console.log(`第${j + 1}次购买白菜`);
         await takeGetRequest('buy');
         await $.wait(2000);
@@ -299,7 +299,6 @@ async function takeGetRequest(type) {
       break;
     case 'DoTask'://任务
       url = `https://m.jingxi.com/newtasksys/newtasksys_front/DoTask?_=${Date.now() + 2}&source=jxmc&taskId=${$.oneTask.taskId}&bizCode=jxmc&configExtra=&_stk=bizCode%2CconfigExtra%2Csource%2CtaskId&_ste=1`;
-      //url = `https://m.jingxi.com/newtasksys/newtasksys_front/GetUserTaskStatusList?_=${Date.now() + 2}&source=jxmc&bizCode=jxmc&dateType=&showAreaTaskFlag=0&jxpp_wxapp_type=7&_stk=bizCode%2CdateType%2Cjxpp_wxapp_type%2CshowAreaTaskFlag%2Csource&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}` + `&sceneval=2&g_login_type=1&g_ty=ajax`;
       myRequest = getGetRequest(`DoTask`, url);
       break;
