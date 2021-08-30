@@ -99,12 +99,14 @@ async function jdPlantBean() {
             $.myPlantUuid = getParam(shareUrl, 'plantUuid')
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.myPlantUuid}\n`);
             roundList = $.plantBeanIndexResult.data.roundList;
-            currentRoundId = roundList[count-1].roundId;//本期的roundId
-            lastRoundId = roundList[count-2].roundId;//上期的roundId
+            currentRoundId = roundList[count-2].roundId;//本期的roundId
+            lastRoundId = roundList[count-3].roundId;//上期的roundId
             // await $.wait(2000);
             // console.log(`\n 活动ID currentRoundId：${$.currentRoundId}\n`);
             // console.log(`\n 活动ID lastRoundId：${$.lastRoundId}\n`);
-            awardState = roundList[count-2].awardState;
+            awardState = roundList[count-3].awardState;
+            // await $.wait(2000)
+            // console.log(`\n 活动ID awardState：${awardState}\n`);
             $.taskList = $.plantBeanIndexResult.data.taskList;
             subTitle = `【京东昵称】${$.plantBeanIndexResult.data.plantUserInfo.plantNickName}`;
             message += `【上期时间】${roundList[0].dateDesc.replace('上期 ', '')}\n`;
@@ -130,6 +132,9 @@ async function jdPlantBean() {
 }
 async function doGetReward() {
     console.log(`【上轮京豆】${awardState === '4' ? '采摘中' : awardState === '5' ? '可收获了' : '已领取'}`);
+    // console.log(`\n 活动ID awardState：${awardState}\n`);
+    // console.log(`\n 活动ID currentRoundId：${currentRoundId}\n`);
+    // console.log(`\n 活动ID lastRoundId：${lastRoundId}\n`);
     if (awardState === '4') {
         //京豆采摘中...
         message += `【上期状态】${roundList[0].tipBeanEndTitle}\n`;
